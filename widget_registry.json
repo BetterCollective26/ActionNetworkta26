@@ -31,5 +31,16 @@
     "created_at_utc": "2026-04-16 19:02:05 UTC",
     "bundle_path": "bundles/test5500.html.json",
     "has_bundle": true
+  },
+  "best-landing-spots-for-an-nfl-draft-prospect.html": {
+    "brand": "Action Network",
+    "table_title": "Best Landing Spots For An NFL Draft Prospect",
+    "file": "best-landing-spots-for-an-nfl-draft-prospect.html",
+    "pages_url": "https://bettercollective26.github.io/ActionNetworkta26/best-landing-spots-for-an-nfl-draft-prospect.html",
+    "github_repo_url": "https://github.com/bettercollective26/ActionNetworkta26",
+    "created_by": "benbc",
+    "created_at_utc": "2026-04-17 15:59:26 UTC",
+    "bundle_path": "bundles/best-landing-spots-for-an-nfl-draft-prospect.html.json",
+    "has_bundle": true
   }
 }
