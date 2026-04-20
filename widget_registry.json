@@ -42,5 +42,16 @@
     "created_at_utc": "2026-04-17 15:59:26 UTC",
     "bundle_path": "bundles/best-landing-spots-for-an-nfl-draft-prospect.html.json",
     "has_bundle": true
+  },
+  "an090495.html": {
+    "brand": "Action Network",
+    "table_title": "Table 1",
+    "file": "an090495.html",
+    "pages_url": "https://bettercollective26.github.io/ActionNetworkta26/an090495.html",
+    "github_repo_url": "https://github.com/bettercollective26/ActionNetworkta26",
+    "created_by": "amybc",
+    "created_at_utc": "2026-04-20 11:51:22 UTC",
+    "bundle_path": "bundles/an090495.html.json",
+    "has_bundle": true
   }
 }
