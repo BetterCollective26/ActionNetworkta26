@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "widget_file_name": "an-world-cup-footballer-states.html",
+  "brand": "Action Network",
+  "created_by": "gauthambc",
+  "created_at_utc": "2026-04-30 13:24:34 UTC",
+  "table_name_words": "AN world-cup-footballer-states",
+  "widget_title": "WHICH U.S. STATES PRODUCE THE MOST WORLD CUP FOOTBALLERS?",
+  "widget_subtitle": "*This index analyzes which states have consistently produced the most impactful FIFA World Cup footballers over the past two decades.*",
+  "config": {
+    "brand": "Action Network",
+    "title": "WHICH U.S. STATES PRODUCE THE MOST WORLD CUP FOOTBALLERS?",
+    "title_style": "Keep original",
+    "title_size": "Default",
+    "subtitle": "*This index analyzes which states have consistently produced the most impactful FIFA World Cup footballers over the past two decades.*",
+    "subtitle_style": "Keep original",
+    "striped": true,
+    "stripe_mode": "Odd",
+    "stripe_tone": "Dark",
+    "show_header": true,
+    "center_titles": false,
+    "branded_title_color": true,
+    "show_footer": true,
+    "footer_logo_align": "Left",
+    "footer_logo_h": 46,
+    "show_footer_notes": true,
+    "footer_notes": "All category scores were normalized to a 0\u2013100 scale before calculating the final World Cup Footballer Score.\n",
+    "show_heat_scale": false,
+    "cell_align": "Center",
+    "show_search": false,
+    "show_pager": false,
+    "show_embed": true,
+    "embed_position": "Header",
+    "show_page_numbers": false,
+    "bar_columns": [
+      "Overall World Cup Footballer Score"
+    ],
+    "bar_max_overrides": {
+      "Overall World Cup Footballer Score": 100.0
+    },
+    "bar_fixed_w": 200,
+    "heat_columns": [],
+    "heat_overrides": {
+      "Overall World Cup Footballer Score": {}
+    },
+    "heat_strength": 0.15,
+    "heatmap_style": "Branded heatmap",
+    "header_style": "ALL CAPS",
+    "col_header_overrides": {},
+    "header_wrap_target": "Off",
+    "header_wrap_words": 2,
+    "image_columns": [
+      "Rank",
+      "State",
+      "Overall World Cup Footballer Score"
+    ]
+  },
+  "confirmed_total_height": 764,
+  "confirmed_height_source": "estimated",
+  "col_format_rules": {},
+  "csv": "Rank,State,Overall World Cup Footballer Score,World Cup Player Production Score,Per Capita Footballer Production Score,Long-Term World Cup Consistency Score,Modern World Cup Relevance Score\n1,California,77.7,100.0,10.6,100,100.0\n2,New Jersey,63.0,69.7,30.7,100,54.6\n3,Washington,40.9,34.9,19.3,100,36.4\n4,Georgia,38.9,32.6,16.0,100,36.4\n5,Illinois,30.4,33.1,8.2,60,27.3\n6,District of Columbia,29.8,1.7,100.0,20,9.1\n7,Texas,29.5,25.1,1.5,80,45.5\n8,New York,26.5,22.9,5.9,60,45.5\n9,Pennsylvania,23.5,17.1,7.9,80,9.1\n10,Missouri,18.0,11.4,14.1,40,27.3\n",
+  "hidden_cols": [],
+  "bar_columns": [
+    "Overall World Cup Footballer Score"
+  ],
+  "bar_max_overrides": {
+    "Overall World Cup Footballer Score": 100.0
+  },
+  "heat_columns": [],
+  "heat_overrides": {
+    "Overall World Cup Footballer Score": {}
+  }
+}
