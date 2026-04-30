@@ -1058,6 +1058,7 @@
       border-radius: 999px;
       background: rgba(0,0,0,.55);
       color: #ffffff;
+  border: 1px solid rgba(255,255,255,.12);
       white-space: nowrap;
       max-width: 100%;
     }
@@ -1365,6 +1366,75 @@
   z-index: 6;
 }
 
+
+/* ✅ Header hover tooltips — added only for column explanations */
+#bt-block thead th[data-tooltip]{
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+
+#bt-block thead th[data-tooltip] .dw-th-label{
+  cursor: help;
+}
+
+#bt-block thead th[data-tooltip]::before{
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%) translateY(-4px);
+  width: max-content;
+  max-width: 270px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--brand-600) 0%, var(--brand-700) 100%);
+  color: #ffffff;
+  font: 600 12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+  text-align: center;
+  box-shadow: 0 14px 30px rgba(17,24,39,.24);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+  z-index: 9999;
+}
+
+#bt-block thead th[data-tooltip]::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 2px);
+  transform: translateX(-50%) translateY(-4px);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent var(--brand-700) transparent;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .16s ease, transform .16s ease, visibility .16s ease;
+  z-index: 9999;
+}
+
+#bt-block thead th[data-tooltip]:hover::before,
+#bt-block thead th[data-tooltip]:hover::after,
+#bt-block thead th[data-tooltip]:focus-visible::before,
+#bt-block thead th[data-tooltip]:focus-visible::after{
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 640px){
+  #bt-block thead th[data-tooltip]::before{
+    max-width: 220px;
+    padding: 9px 10px;
+    font-size: 11.5px;
+  }
+}
+
 </style>
 <!-- Header -->
 <div class="vi-table-header  ">
@@ -1423,13 +1493,13 @@
 <table class="dw-table">
 <thead>
 <tr>
-<th scope="col" data-type="num" data-col-name="Rank" data-export-image="1" data-header-original="RANK" class=""><span class="dw-th-label"><span class="dw-th-main">RANK</span></span></th>
-              <th scope="col" data-type="text" data-col-name="State" data-export-image="1" data-header-original="STATE" class="dw-text-col"><span class="dw-th-label"><span class="dw-th-main">STATE</span></span></th>
-              <th scope="col" data-type="num" data-col-name="Overall World Cup Footballer Score" data-export-image="1" data-header-original="OVERALL WORLD CUP FOOTBALLER SCORE" class="dw-bar-col"><span class="dw-th-label"><span class="dw-th-main">OVERALL WORLD CUP FOOTBALLER SCORE</span></span></th>
-              <th scope="col" data-type="num" data-col-name="World Cup Player Production Score" data-export-image="0" data-header-original="WORLD CUP PLAYER PRODUCTION SCORE" class=""><span class="dw-th-label"><span class="dw-th-main">WORLD CUP PLAYER PRODUCTION SCORE</span></span></th>
-              <th scope="col" data-type="num" data-col-name="Per Capita Footballer Production Score" data-export-image="0" data-header-original="PER CAPITA FOOTBALLER PRODUCTION SCORE" class=""><span class="dw-th-label"><span class="dw-th-main">PER CAPITA FOOTBALLER PRODUCTION SCORE</span></span></th>
-              <th scope="col" data-type="num" data-col-name="Long-Term World Cup Consistency Score" data-export-image="0" data-header-original="LONG-TERM WORLD CUP CONSISTENCY SCORE" class=""><span class="dw-th-label"><span class="dw-th-main">LONG-TERM WORLD CUP CONSISTENCY SCORE</span></span></th>
-              <th scope="col" data-type="num" data-col-name="Modern World Cup Relevance Score" data-export-image="0" data-header-original="MODERN WORLD CUP RELEVANCE SCORE" class=""><span class="dw-th-label"><span class="dw-th-main">MODERN WORLD CUP RELEVANCE SCORE</span></span></th>
+<th tabindex="0" scope="col" data-type="num" data-col-name="Rank" data-tooltip="The state’s position in the final ranking." data-export-image="1" data-header-original="RANK" class=""><span class="dw-th-label"><span class="dw-th-main">RANK</span></span></th>
+              <th tabindex="0" scope="col" data-type="text" data-col-name="State" data-tooltip="The U.S. state where the World Cup footballers were born." data-export-image="1" data-header-original="STATE" class="dw-text-col"><span class="dw-th-label"><span class="dw-th-main">STATE</span></span></th>
+              <th tabindex="0" scope="col" data-type="num" data-col-name="Overall World Cup Footballer Score" data-tooltip="Final weighted score based on player production, per-capita output, consistency and recent World Cup relevance." data-export-image="1" data-header-original="OVERALL WORLD CUP FOOTBALLER SCORE" class="dw-bar-col"><span class="dw-th-label"><span class="dw-th-main">OVERALL WORLD CUP FOOTBALLER SCORE</span></span></th>
+              <th tabindex="0" scope="col" data-type="num" data-col-name="World Cup Player Production Score" data-tooltip="Measures overall World Cup player output using total World Cup appearances and unique players produced." data-export-image="0" data-header-original="WORLD CUP PLAYER PRODUCTION SCORE" class=""><span class="dw-th-label"><span class="dw-th-main">WORLD CUP PLAYER PRODUCTION SCORE</span></span></th>
+              <th tabindex="0" scope="col" data-type="num" data-col-name="Per Capita Footballer Production Score" data-tooltip="Measures how strongly a state performs relative to its population size." data-export-image="0" data-header-original="PER CAPITA FOOTBALLER PRODUCTION SCORE" class=""><span class="dw-th-label"><span class="dw-th-main">PER CAPITA FOOTBALLER PRODUCTION SCORE</span></span></th>
+              <th tabindex="0" scope="col" data-type="num" data-col-name="Long-Term World Cup Consistency Score" data-tooltip="Measures how consistently a state has produced World Cup footballers across tournament years." data-export-image="0" data-header-original="LONG-TERM WORLD CUP CONSISTENCY SCORE" class=""><span class="dw-th-label"><span class="dw-th-main">LONG-TERM WORLD CUP CONSISTENCY SCORE</span></span></th>
+              <th tabindex="0" scope="col" data-type="num" data-col-name="Modern World Cup Relevance Score" data-tooltip="Measures how many players from each state featured in recent World Cups from 2010 to 2022." data-export-image="0" data-header-original="MODERN WORLD CUP RELEVANCE SCORE" class=""><span class="dw-th-label"><span class="dw-th-main">MODERN WORLD CUP RELEVANCE SCORE</span></span></th>
 </tr>
 </thead>
 <tbody>
