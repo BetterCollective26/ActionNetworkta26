@@ -807,7 +807,7 @@
       -webkit-overflow-scrolling: touch;
       touch-action: pan-x pan-y;
       overscroll-behavior: contain;
-      scrollbar-gutter: stable;
+      scrollbar-gutter: auto;
       scrollbar-width: thin;
       scrollbar-color: var(--scroll-thumb) rgba(255,255,255,.2);
       position: relative;
@@ -1410,7 +1410,7 @@
   transform: translateX(-50%) translateY(-4px);
   border-width: 0 6px 6px 6px;
   border-style: solid;
-  border-color: transparent transparent var(--brand-700) transparent;
+  border-color: transparent transparent #379c47 transparent;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -1435,6 +1435,351 @@
   }
 }
 
+
+
+
+
+/* ======================================================
+   ✅ FINAL FIX: remove the blank right-side scroll gutter
+   ======================================================
+   Cause: the scroll box was reserving/painting space for the vertical
+   scrollbar and bottom fade overlays, which showed up as a white strip
+   after the final table column inside narrow iframes.
+*/
+#bt-block .dw-card,
+#bt-block .dw-scroll{
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
+
+#bt-block .dw-scroll{
+  scrollbar-gutter: auto !important;
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  background: #ffffff !important;
+}
+
+/* The decorative top/bottom fade overlays can create an invisible scroll width.
+   Removing them stops the final horizontal position from landing on empty space. */
+#bt-block .dw-scroll::before,
+#bt-block .dw-scroll::after{
+  display: none !important;
+  content: none !important;
+}
+
+#bt-block table.dw-table{
+  width: max-content !important;
+  min-width: 100% !important;
+  margin: 0 !important;
+  border-right: 0 !important;
+}
+
+#bt-block thead th:last-child,
+#bt-block tbody td:last-child{
+  border-right: 0 !important;
+}
+
+/* Keep the horizontal scrollbar visible, but stop the vertical scrollbar from
+   taking up a permanent white gutter on the right. The table still scrolls
+   vertically with mouse wheel / trackpad / touch. */
+#bt-block .dw-scroll::-webkit-scrollbar:vertical{
+  width: 0 !important;
+  display: none !important;
+}
+
+#bt-block .dw-scroll::-webkit-scrollbar:horizontal{
+  height: 10px !important;
+}
+
+/* Firefox: avoid reserving extra scrollbar space. */
+#bt-block .dw-scroll{
+  scrollbar-width: thin;
+}
+
+/* ======================================================
+   ✅ Button label fix: stop “/ Download” wrapping outside the green pill
+   ====================================================== */
+.vi-table-embed button.dw-btn.dw-download,
+.vi-table-embed .dw-btn.dw-download,
+.vi-table-embed .dw-download,
+.vi-table-embed .vi-header-actions button,
+.vi-table-embed .footer-embed-wrap button{
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  line-height: 1 !important;
+  min-width: max-content !important;
+}
+
+@media (max-width: 720px){
+  .vi-table-embed button.dw-btn.dw-download,
+  .vi-table-embed .dw-btn.dw-download,
+  .vi-table-embed .dw-download,
+  .vi-table-embed .vi-header-actions button,
+  .vi-table-embed .footer-embed-wrap button{
+    font-size: 0 !important;
+    color: transparent !important;
+    text-indent: -9999px !important;
+    width: auto !important;
+    min-width: 82px !important;
+    max-width: 92px !important;
+    padding-inline: 16px !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .vi-table-embed button.dw-btn.dw-download::after,
+  .vi-table-embed .dw-btn.dw-download::after,
+  .vi-table-embed .dw-download::after,
+  .vi-table-embed .vi-header-actions button::after,
+  .vi-table-embed .footer-embed-wrap button::after{
+    content: "Embed" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    text-indent: 0 !important;
+    white-space: nowrap !important;
+    pointer-events: none !important;
+  }
+}
+
+/* ======================================================
+   ✅ REAL SCROLL-END FIX
+   The hidden header tooltip pseudo-elements were still counted in
+   the horizontal scroll width. That created the white blank space
+   after the final column when scrolled fully right.
+   ====================================================== */
+#bt-block thead th[data-tooltip]::before,
+#bt-block thead th[data-tooltip]::after{
+  display: none !important;
+}
+
+#bt-block thead th[data-tooltip]:hover::before,
+#bt-block thead th[data-tooltip]:hover::after,
+#bt-block thead th[data-tooltip]:focus-visible::before,
+#bt-block thead th[data-tooltip]:focus-visible::after{
+  display: block !important;
+}
+
+/* Make the horizontal scroll range come only from the table itself. */
+#bt-block .dw-scroll{
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+  scrollbar-gutter: auto !important;
+}
+
+#bt-block table.dw-table{
+  display: table !important;
+  width: max-content !important;
+  min-width: max-content !important;
+  max-width: none !important;
+}
+
+@supports (width: max(100%, max-content)){
+  #bt-block table.dw-table{
+    width: max(100%, max-content) !important;
+    min-width: max-content !important;
+  }
+}
+
+.vi-table-embed .dw-btn.dw-download,
+.vi-table-embed .dw-download,
+.vi-table-embed .vi-header-actions button,
+.vi-table-embed .footer-embed-wrap button{
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+}
+
+
+
+/* ======================================================
+   ✅ Tooltip position fix
+   - Show header tooltip ABOVE the header cells
+   - Keep first and last header tooltips one-sided so they never bleed out
+   ====================================================== */
+#bt-block thead th[data-tooltip]{
+  overflow: visible !important;
+}
+
+#bt-block thead th[data-tooltip]::before{
+  top: auto !important;
+  bottom: calc(100% + 10px) !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) translateY(6px) !important;
+  max-width: min(270px, calc(100vw - 32px)) !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+  z-index: 9999 !important;
+}
+
+#bt-block thead th[data-tooltip]::after{
+  top: auto !important;
+  bottom: calc(100% + 4px) !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translateX(-50%) translateY(6px) !important;
+  border-width: 6px 6px 0 6px !important;
+  border-style: solid !important;
+  border-color: var(--brand-700) transparent transparent transparent !important;
+  z-index: 9999 !important;
+}
+
+#bt-block thead th[data-tooltip]:hover::before,
+#bt-block thead th[data-tooltip]:hover::after,
+#bt-block thead th[data-tooltip]:focus-visible::before,
+#bt-block thead th[data-tooltip]:focus-visible::after{
+  transform: translateX(-50%) translateY(0) !important;
+}
+
+/* First column: anchor from the left so the tooltip stays inside the iframe */
+#bt-block thead th[data-tooltip]:first-child::before{
+  left: 12px !important;
+  right: auto !important;
+  transform: translateX(0) translateY(6px) !important;
+  text-align: left !important;
+}
+#bt-block thead th[data-tooltip]:first-child::after{
+  left: 24px !important;
+  right: auto !important;
+  transform: translateX(0) translateY(6px) !important;
+}
+#bt-block thead th[data-tooltip]:first-child:hover::before,
+#bt-block thead th[data-tooltip]:first-child:hover::after,
+#bt-block thead th[data-tooltip]:first-child:focus-visible::before,
+#bt-block thead th[data-tooltip]:first-child:focus-visible::after{
+  transform: translateX(0) translateY(0) !important;
+}
+
+/* Last column: anchor from the right so the tooltip stays inside the iframe */
+#bt-block thead th[data-tooltip]:last-child::before{
+  left: auto !important;
+  right: 12px !important;
+  transform: translateX(0) translateY(6px) !important;
+  text-align: left !important;
+}
+#bt-block thead th[data-tooltip]:last-child::after{
+  left: auto !important;
+  right: 24px !important;
+  transform: translateX(0) translateY(6px) !important;
+}
+#bt-block thead th[data-tooltip]:last-child:hover::before,
+#bt-block thead th[data-tooltip]:last-child:hover::after,
+#bt-block thead th[data-tooltip]:last-child:focus-visible::before,
+#bt-block thead th[data-tooltip]:last-child:focus-visible::after{
+  transform: translateX(0) translateY(0) !important;
+}
+
+@media (max-width: 640px){
+  #bt-block thead th[data-tooltip]::before{
+    max-width: min(220px, calc(100vw - 24px)) !important;
+    padding: 9px 10px !important;
+    font-size: 11.5px !important;
+  }
+  #bt-block thead th[data-tooltip]:first-child::before{
+    left: 8px !important;
+  }
+  #bt-block thead th[data-tooltip]:first-child::after{
+    left: 20px !important;
+  }
+  #bt-block thead th[data-tooltip]:last-child::before{
+    right: 8px !important;
+  }
+  #bt-block thead th[data-tooltip]:last-child::after{
+    right: 20px !important;
+  }
+}
+
+
+/* ======================================================
+   ✅ FINAL TOOLTIP FIX
+   Use a real floating tooltip layer instead of header pseudo-elements.
+   This prevents the sticky header / scroll container from clipping it.
+   ====================================================== */
+#bt-block thead th[data-tooltip]::before,
+#bt-block thead th[data-tooltip]::after,
+#bt-block thead th[data-tooltip]:hover::before,
+#bt-block thead th[data-tooltip]:hover::after,
+#bt-block thead th[data-tooltip]:focus-visible::before,
+#bt-block thead th[data-tooltip]:focus-visible::after{
+  display: none !important;
+  content: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.bt-floating-tooltip{
+  position: fixed !important;
+  left: 0;
+  top: 0;
+  z-index: 2147483647 !important;
+  max-width: min(280px, calc(100vw - 18px));
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #379c47 !important;
+  background-image: none !important;
+  color: #ffffff !important;
+  border: 1px solid #2f8d3f !important;
+  font: 700 12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+  text-align: center;
+  box-shadow: 0 16px 34px rgba(17,24,39,.28);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity .14s ease, transform .14s ease, visibility .14s ease;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: normal;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  isolation: isolate;
+}
+
+.bt-floating-tooltip.is-visible{
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0);
+}
+
+.bt-floating-tooltip::after{
+  content: "";
+  position: absolute;
+  left: var(--arrow-x, 50%);
+  bottom: -6px;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0 6px;
+  border-style: solid;
+  border-color: #379c47 transparent transparent transparent;
+}
+
+.bt-floating-tooltip.is-below::after{
+  bottom: auto;
+  top: -6px;
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent var(--brand-700) transparent;
+}
+
+@media (max-width: 640px){
+  .bt-floating-tooltip{
+    max-width: min(230px, calc(100vw - 16px));
+    padding: 9px 10px;
+    font-size: 11.5px;
+  }
+}
+
 </style>
 <!-- Header -->
 <div class="vi-table-header  ">
@@ -1443,7 +1788,7 @@
 <span class="subtitle"><em>This index analyzes which states have consistently produced the most impactful FIFA World Cup footballers over the past two decades.</em></span>
 </div>
 <div class="vi-header-actions " data-embed-target="header">
-<button class="dw-btn dw-download dw-embed-trigger dw-embed-trigger-header" type="button">Embed / Download</button>
+<button class="dw-btn dw-download dw-embed-trigger dw-embed-trigger-header" type="button">Embed</button>
 </div>
 </div>
 <!-- Table block -->
@@ -1472,7 +1817,7 @@
 </div>
 <!-- Embed/Download -->
 <div class="dw-embed-slot vi-hide" data-embed-target="body"><div class="dw-embed ">
-<button class="dw-btn dw-download" id="dw-download-png" type="button">Embed / Download</button>
+<button class="dw-btn dw-download" id="dw-download-png" type="button">Embed</button>
 <div aria-label="Download Menu" class="dw-download-menu vi-hide" id="dw-download-menu">
 <div class="dw-menu-title" id="dw-menu-title">Choose action</div>
 <!-- Full table options -->
@@ -1645,7 +1990,7 @@
 <img alt="Action Network Logo" decoding="async" height="auto" loading="lazy" src="https://i.postimg.cc/x1nG117r/AN-final2-logo.png" width="160"/>
 </div>
 <div class="footer-embed-wrap vi-hide" data-embed-target="footer">
-<button class="dw-btn dw-download dw-embed-trigger dw-embed-trigger-footer" type="button">Embed / Download</button>
+<button class="dw-btn dw-download dw-embed-trigger dw-embed-trigger-footer" type="button">Embed</button>
 </div>
 </div>
 </div>
@@ -3084,7 +3429,101 @@
     syncMeasuredScrollerHeight();
   })();
   </script>
+
+<script>
+(function(){
+  const root = document.querySelector('.vi-table-embed');
+  if (!root) return;
+
+  const heads = Array.from(root.querySelectorAll('#bt-block thead th[data-tooltip]'));
+  if (!heads.length) return;
+
+  let tip = document.querySelector('.bt-floating-tooltip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.className = 'bt-floating-tooltip';
+    tip.setAttribute('role', 'tooltip');
+    document.body.appendChild(tip);
+  }
+
+  let active = null;
+
+  function clamp(value, min, max){
+    return Math.max(min, Math.min(value, max));
+  }
+
+  function positionTooltip(){
+    if (!active || !tip.classList.contains('is-visible')) return;
+
+    const text = active.getAttribute('data-tooltip') || '';
+    if (!text) return;
+
+    tip.textContent = text;
+
+    const viewportW = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const viewportH = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+    const rect = active.getBoundingClientRect();
+
+    tip.style.maxWidth = Math.min(viewportW - 16, viewportW <= 640 ? 230 : 280) + 'px';
+    tip.style.left = '0px';
+    tip.style.top = '0px';
+
+    const tRect = tip.getBoundingClientRect();
+    const gap = 10;
+    const edge = 8;
+
+    let left = rect.left + (rect.width / 2) - (tRect.width / 2);
+    left = clamp(left, edge, viewportW - tRect.width - edge);
+
+    /* Prefer above the header so row-one values stay visible. If there is genuinely
+       no room above, place it below as a fallback rather than clipping the text. */
+    let top = rect.top - tRect.height - gap;
+    let below = false;
+
+    if (top < edge) {
+      top = rect.bottom + gap;
+      below = true;
+      if (top + tRect.height > viewportH - edge) {
+        top = clamp(rect.top - tRect.height - gap, edge, viewportH - tRect.height - edge);
+        below = false;
+      }
+    }
+
+    const headerCenter = rect.left + rect.width / 2;
+    const arrowX = clamp(headerCenter - left, 14, tRect.width - 14);
+
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+    tip.style.setProperty('--arrow-x', arrowX + 'px');
+    tip.classList.toggle('is-below', below);
+  }
+
+  function showTooltip(e){
+    active = e.currentTarget;
+    tip.textContent = active.getAttribute('data-tooltip') || '';
+    tip.classList.add('is-visible');
+    requestAnimationFrame(positionTooltip);
+  }
+
+  function hideTooltip(){
+    active = null;
+    tip.classList.remove('is-visible', 'is-below');
+  }
+
+  heads.forEach(th => {
+    th.addEventListener('mouseenter', showTooltip);
+    th.addEventListener('focus', showTooltip);
+    th.addEventListener('mouseleave', hideTooltip);
+    th.addEventListener('blur', hideTooltip);
+  });
+
+  const scroller = root.querySelector('#bt-block .dw-scroll');
+  if (scroller) scroller.addEventListener('scroll', positionTooltip, { passive: true });
+  window.addEventListener('scroll', positionTooltip, { passive: true });
+  window.addEventListener('resize', positionTooltip);
+})();
+</script>
+
 </section>
 </body>
 </html>
-
