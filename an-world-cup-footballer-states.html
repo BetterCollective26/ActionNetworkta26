@@ -10,14 +10,14 @@
 <title>Table 1</title>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
-<body style="margin:0; overflow:hidden; background:transparent;">
+<body style="margin:0; background:transparent;">
 <section class="vi-table-embed brand-actionnetwork footer-left  align-center" data-embed-position="header" style="width:100%;max-width:100%;margin:0;
          font:14px/1.35 Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
          color:#181a1f;background:#ffffff;border:1px solid rgba(var(--brand-500-rgb),.12);border-radius:0;
          box-shadow:inset 0 1px 0 rgba(255,255,255,.85);">
 <style>
-    html, body { height:auto; min-height:0; overflow:hidden; margin:0; padding:0; background:transparent; }
-    body{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    /* Scoped reset only. Do not style html/body so this cannot affect the host CMS page. */
+    .vi-table-embed{ -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
     .vi-table-embed, .vi-table-embed * { box-sizing:border-box; font-family:inherit; }
 
     .vi-table-embed{
@@ -807,7 +807,7 @@
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       touch-action: pan-x pan-y;
-      overscroll-behavior: contain;
+      overscroll-behavior: auto;
       scrollbar-gutter: auto;
       scrollbar-width: thin;
       scrollbar-color: var(--scroll-thumb) rgba(255,255,255,.2);
@@ -1341,7 +1341,7 @@
   overflow-y: scroll !important;
   -webkit-overflow-scrolling: touch !important;
   touch-action: pan-x pan-y !important;
-  overscroll-behavior: contain !important;
+  overscroll-behavior: auto !important;
 }
 
 #bt-block .dw-page-status{
@@ -1359,7 +1359,7 @@
   overflow-y:scroll !important;
   -webkit-overflow-scrolling:touch !important;
   touch-action:pan-x pan-y !important;
-  overscroll-behavior:contain !important;
+  overscroll-behavior:auto !important;
 }
 #bt-block thead th{
   position: sticky;
@@ -1789,18 +1789,9 @@
    and only the table area scrolls, keeping the footer and footer note visible.
    ====================================================== */
 @media (max-width: 640px){
-  html,
-  body{
-    width:100% !important;
-    height:100% !important;
-    min-height:0 !important;
-    margin:0 !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    background:transparent !important;
-  }
-
+  /* Scoped to this widget only. No html/body/page-level rules. */
   .vi-table-embed{
+    width:100% !important;
     height:100vh !important;
     max-height:100vh !important;
     min-height:0 !important;
@@ -1841,7 +1832,7 @@
     overflow-y:auto !important;
     -webkit-overflow-scrolling:touch !important;
     touch-action:pan-x pan-y !important;
-    overscroll-behavior:contain !important;
+    overscroll-behavior:auto !important;
     scrollbar-width:thin !important;
     scrollbar-color:var(--scroll-thumb) rgba(var(--brand-500-rgb), .12) !important;
   }
@@ -1897,6 +1888,47 @@
   .vi-table-embed .footer-notes::-webkit-scrollbar-thumb{
     background:var(--brand-500) !important;
     border-radius:999px !important;
+  }
+}
+
+
+
+/* ======================================================
+   ✅ PAGE-SAFE OVERRIDE
+   If this HTML is pasted directly into a CMS page instead of loaded
+   inside an iframe, do not lock the page/body or trap page scrolling.
+   The iframe-only height lock is applied only when JS adds .bt-is-iframe.
+   ====================================================== */
+@media (max-width: 640px){
+  .vi-table-embed.bt-is-inline-page{
+    height:auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+    overflow:visible !important;
+  }
+
+  .vi-table-embed.bt-is-inline-page #bt-block,
+  .vi-table-embed.bt-is-inline-page #bt-block .dw-card{
+    height:auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+    overflow:visible !important;
+  }
+
+  .vi-table-embed.bt-is-inline-page #bt-block .dw-scroll{
+    height:auto !important;
+    max-height:none !important;
+    min-height:0 !important;
+    overflow-x:auto !important;
+    overflow-y:visible !important;
+    -webkit-overflow-scrolling:touch !important;
+    overscroll-behavior:auto !important;
+    touch-action:auto !important;
+  }
+
+  .vi-table-embed.bt-is-iframe #bt-block .dw-scroll,
+  .vi-table-embed.bt-is-iframe .footer-notes{
+    overscroll-behavior:auto !important;
   }
 }
 
@@ -2160,6 +2192,14 @@
 
     const embedWrap = controls.querySelector('.dw-embed');
     const widgetRoot = document.querySelector('section.vi-table-embed');
+    const isInsideIframe = (() => {
+      try { return window.self !== window.top; }
+      catch(e) { return true; }
+    })();
+    if (widgetRoot) {
+      widgetRoot.classList.toggle('bt-is-iframe', isInsideIframe);
+      widgetRoot.classList.toggle('bt-is-inline-page', !isInsideIframe);
+    }
     const downloadBtn = embedWrap ? embedWrap.querySelector('#dw-download-png') : null;
     const headerTrigger = widgetRoot ? widgetRoot.querySelector('.dw-embed-trigger-header') : null;
     const footerTrigger = widgetRoot ? widgetRoot.querySelector('.dw-embed-trigger-footer') : null;
@@ -2258,7 +2298,7 @@
       scroller.style.overflowY = 'auto';
       scroller.style.webkitOverflowScrolling = 'touch';
       scroller.style.touchAction = 'pan-x pan-y';
-      scroller.style.overscrollBehavior = 'contain';
+      scroller.style.overscrollBehavior = 'auto';
 
       const visibleRows = Array.from(tb.rows).filter(r =>
         !r.classList.contains('dw-empty') && r.style.display !== 'none'
@@ -2300,7 +2340,7 @@
       // the fixed iframe height. Keep the whole widget inside the iframe and make the
       // table viewport scroll vertically, so the footer and footer note never get cut off.
       const isMobileEmbedViewport = window.matchMedia('(max-width: 640px)').matches;
-      if (isMobileEmbedViewport) {
+      if (isMobileEmbedViewport && isInsideIframe) {
         const viewportH = Math.max(320, Math.ceil(window.innerHeight || document.documentElement.clientHeight || 680));
         const headerOuterH = header ? Math.ceil(header.getBoundingClientRect().height || header.offsetHeight || 0) : 0;
         const footerOuterH = footer ? Math.ceil(footer.getBoundingClientRect().height || footer.offsetHeight || 0) : 0;
@@ -2339,7 +2379,7 @@
       scroller.style.setProperty('overflow-y', 'scroll', 'important');
       scroller.style.setProperty('-webkit-overflow-scrolling', 'touch', 'important');
       scroller.style.setProperty('touch-action', 'pan-x pan-y', 'important');
-      scroller.style.setProperty('overscroll-behavior', 'contain', 'important');
+      scroller.style.setProperty('overscroll-behavior', 'auto', 'important');
 
       requestAnimationFrame(() => {
         const overflowsVertically = table.scrollHeight > scroller.clientHeight + 2;
