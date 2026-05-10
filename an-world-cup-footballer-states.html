@@ -1,3 +1,4 @@
+
 <!-- BT_PUBLISH_HASH:bar_columns=['Overall World Cup Footballer Score']|bar_fixed_w=200|bar_max_overrides={'Overall World Cup Footballer Score': 100.0}|brand='Action Network'|branded_title_color=True|cell_align='Center'|center_titles=False|col_header_overrides={}|embed_position='Header'|footer_logo_align='Left'|footer_logo_h=46|footer_notes='All category scores were normalized to a 0–100 scale before calculating the final World Cup Footballer Score.\n'|header_style='ALL CAPS'|header_wrap_target='Off'|header_wrap_words=2|heat_columns=[]|heat_overrides={'Overall World Cup Footballer Score': {}}|heat_strength=0.15|heatmap_style='Branded heatmap'|image_columns=['Rank', 'State', 'Overall World Cup Footballer Score']|show_embed=True|show_footer=True|show_footer_notes=True|show_header=True|show_heat_scale=False|show_page_numbers=False|show_pager=False|show_search=False|stripe_mode='Odd'|stripe_tone='Dark'|striped=True|subtitle='*This index analyzes which states have consistently produced the most impactful FIFA World Cup footballers over the past two decades.*'|subtitle_style='Keep original'|title='WHICH U.S. STATES PRODUCE THE MOST WORLD CUP FOOTBALLERS?'|title_size='Default'|title_style='Keep original' -->
 <!-- BT_PUBLISH_HASH:bar_columns=[]|bar_fixed_w=200|bar_max_overrides={}|brand='Canada Sports Betting'|branded_title_color=True|cell_align='Center'|center_titles=False|col_header_overrides={}|header_wrap_target='Off'|header_wrap_words=2|embed_position='Header'|footer_logo_align='Center'|footer_logo_h=36|footer_notes=''|header_style='Keep original'|heat_columns=[]|heat_overrides={}|heat_strength=0.55|heatmap_style='Branded heatmap'|show_embed=True|show_footer=True|show_footer_notes=False|show_header=True|show_heat_scale=False|show_page_numbers=True|show_pager=True|show_search=True|striped=True|subtitle='Subheading'|subtitle_style='Keep original'|title='Table 1'|title_style='Keep original' -->
 <!DOCTYPE html>
@@ -1780,6 +1781,125 @@
   }
 }
 
+
+
+/* ======================================================
+   ✅ MOBILE CMS/IFRAME FIX
+   Desktop stays unchanged. On phones, the widget is locked to the iframe height
+   and only the table area scrolls, keeping the footer and footer note visible.
+   ====================================================== */
+@media (max-width: 640px){
+  html,
+  body{
+    width:100% !important;
+    height:100% !important;
+    min-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    background:transparent !important;
+  }
+
+  .vi-table-embed{
+    height:100vh !important;
+    max-height:100vh !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+  }
+
+  .vi-table-embed .vi-table-header{
+    flex:0 0 auto !important;
+    height:auto !important;
+    max-height:none !important;
+  }
+
+  #bt-block{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+    padding:0 !important;
+  }
+
+  #bt-block .dw-card{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    display:flex !important;
+    flex-direction:column !important;
+    overflow:hidden !important;
+  }
+
+  #bt-block .dw-scroll{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    height:auto !important;
+    max-height:none !important;
+    overflow-x:auto !important;
+    overflow-y:auto !important;
+    -webkit-overflow-scrolling:touch !important;
+    touch-action:pan-x pan-y !important;
+    overscroll-behavior:contain !important;
+    scrollbar-width:thin !important;
+    scrollbar-color:var(--scroll-thumb) rgba(var(--brand-500-rgb), .12) !important;
+  }
+
+  #bt-block .dw-scroll::-webkit-scrollbar:vertical{
+    width:8px !important;
+    display:block !important;
+  }
+
+  #bt-block .dw-scroll::-webkit-scrollbar:horizontal{
+    height:10px !important;
+    display:block !important;
+  }
+
+  #bt-block .dw-scroll::-webkit-scrollbar-track{
+    background:rgba(var(--brand-500-rgb), .08) !important;
+  }
+
+  #bt-block .dw-scroll::-webkit-scrollbar-thumb{
+    background:linear-gradient(180deg, var(--brand-500) 0%, var(--brand-700) 100%) !important;
+    border-radius:999px !important;
+    border:2px solid rgba(255,255,255,.75) !important;
+    background-clip:content-box !important;
+  }
+
+  .vi-table-embed .vi-footer{
+    flex:0 0 auto !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    overflow:hidden !important;
+    padding:12px 12px !important;
+  }
+
+  .vi-table-embed .footer-inner{
+    height:auto !important;
+    min-height:0 !important;
+    overflow:hidden !important;
+    gap:10px !important;
+  }
+
+  .vi-table-embed .footer-notes{
+    max-height:82px !important;
+    overflow-y:auto !important;
+    scrollbar-width:thin !important;
+    scrollbar-color:var(--scroll-thumb) rgba(var(--brand-500-rgb), .12) !important;
+  }
+
+  .vi-table-embed .footer-notes::-webkit-scrollbar{
+    width:6px !important;
+  }
+
+  .vi-table-embed .footer-notes::-webkit-scrollbar-thumb{
+    background:var(--brand-500) !important;
+    border-radius:999px !important;
+  }
+}
+
 </style>
 <!-- Header -->
 <div class="vi-table-header  ">
@@ -2173,7 +2293,32 @@
       // Do NOT clamp this to the current iframe height. On narrower embeds/mobile,
       // rows can wrap to 2–4 lines, so the iframe must grow to fit 10 rows while
       // rows 11+ remain inside this fixed viewport and scroll internally.
-      const desiredH = Math.max(180, headerTableH + rowCapH + horizontalReserve);
+      let desiredH = Math.max(180, headerTableH + rowCapH + horizontalReserve);
+
+      // ✅ Mobile CMS/iframe fix:
+      // In narrow CMS iframes, the header + wrapped table rows can become taller than
+      // the fixed iframe height. Keep the whole widget inside the iframe and make the
+      // table viewport scroll vertically, so the footer and footer note never get cut off.
+      const isMobileEmbedViewport = window.matchMedia('(max-width: 640px)').matches;
+      if (isMobileEmbedViewport) {
+        const viewportH = Math.max(320, Math.ceil(window.innerHeight || document.documentElement.clientHeight || 680));
+        const headerOuterH = header ? Math.ceil(header.getBoundingClientRect().height || header.offsetHeight || 0) : 0;
+        const footerOuterH = footer ? Math.ceil(footer.getBoundingClientRect().height || footer.offsetHeight || 0) : 0;
+        const controlsOuterH = controlsRow ? Math.ceil(controlsRow.getBoundingClientRect().height || controlsRow.offsetHeight || 0) : 0;
+        const statusOuterH = statusRow ? Math.ceil(statusRow.getBoundingClientRect().height || statusRow.offsetHeight || 0) : 0;
+        const blockPaddingReserve = 8;
+
+        desiredH = Math.max(120, viewportH - headerOuterH - footerOuterH - controlsOuterH - statusOuterH - blockPaddingReserve);
+
+        widgetRoot.style.setProperty('height', viewportH + 'px', 'important');
+        widgetRoot.style.setProperty('max-height', viewportH + 'px', 'important');
+        widgetRoot.style.setProperty('min-height', '0', 'important');
+        widgetRoot.style.setProperty('overflow', 'hidden', 'important');
+      } else {
+        widgetRoot.style.removeProperty('height');
+        widgetRoot.style.removeProperty('max-height');
+        widgetRoot.style.removeProperty('min-height');
+      }
 
       if (card){
         card.style.setProperty('flex', '0 0 auto', 'important');
@@ -2213,6 +2358,9 @@
     // when Streamlit or WordPress gives the iframe a slightly taller fixed height.
     function syncOuterIframeToWidget(){
       try {
+        // On mobile, do not grow the parent iframe to the full wrapped content height.
+        // The table area handles the vertical scrolling instead.
+        if (window.matchMedia('(max-width: 640px)').matches) return;
         if (!widgetRoot || !window.frameElement) return;
         const rect = widgetRoot.getBoundingClientRect();
         const h = Math.ceil(rect.height || widgetRoot.offsetHeight || 0);
