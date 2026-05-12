@@ -1,5 +1,6 @@
 
 
+<!-- Updated: single Download Image option only. -->
 <!-- BT_PUBLISH_HASH:bar_columns=['Overall World Cup Soccer Player Score']|bar_fixed_w=200|bar_max_overrides={'Overall World Cup Soccer Player Score': 100.0}|brand='RotoGrinders'|branded_title_color=True|cell_align='Center'|center_titles=False|col_header_overrides={}|embed_position='Header'|footer_logo_align='Left'|footer_logo_h=46|footer_notes='All category scores were normalized to a 0–100 scale before calculating the final World Cup Soccer Player Score.\n'|header_style='ALL CAPS'|header_wrap_target='Off'|header_wrap_words=2|heat_columns=[]|heat_overrides={'Overall World Cup Soccer Player Score': {}}|heat_strength=0.15|heatmap_style='Branded heatmap'|image_columns=['Rank', 'State', 'Overall World Cup Soccer Player Score']|show_embed=True|show_footer=True|show_footer_notes=True|show_header=True|show_heat_scale=False|show_page_numbers=False|show_pager=False|show_search=False|stripe_mode='Odd'|stripe_tone='Dark'|striped=True|subtitle='*This index analyzes which states have consistently produced the most impactful FIFA World Cup soccer players over the past two decades.*'|subtitle_style='Keep original'|title='WHICH U.S. STATES PRODUCE THE MOST WORLD CUP SOCCER PLAYERS?'|title_size='Default'|title_style='Keep original' -->
 <!-- BT_PUBLISH_HASH:bar_columns=[]|bar_fixed_w=200|bar_max_overrides={}|brand='Canada Sports Betting'|branded_title_color=True|cell_align='Center'|center_titles=False|col_header_overrides={}|header_wrap_target='Off'|header_wrap_words=2|embed_position='Header'|footer_logo_align='Center'|footer_logo_h=36|footer_notes=''|header_style='Keep original'|heat_columns=[]|heat_overrides={}|heat_strength=0.55|heatmap_style='Branded heatmap'|show_embed=True|show_footer=True|show_footer_notes=False|show_header=True|show_heat_scale=False|show_page_numbers=True|show_pager=True|show_search=True|striped=True|subtitle='Subheading'|subtitle_style='Keep original'|title='Table 1'|title_style='Keep original' -->
 <!DOCTYPE html>
@@ -1933,6 +1934,39 @@
   }
 }
 
+
+/* ======================================================
+   ✅ RotoGrinders header height fix
+   Gives the title/subtitle more vertical room at 750px iframe width,
+   while reducing the table scroll area so the overall iframe fit stays stable.
+   ====================================================== */
+@media (min-width: 641px){
+  .vi-table-embed .vi-table-header{
+    min-height:124px !important;
+    height:124px !important;
+    flex:0 0 124px !important;
+    padding:16px 18px !important;
+    align-items:center !important;
+  }
+
+  .vi-table-embed .vi-header-main{
+    gap:6px !important;
+  }
+
+  .vi-table-embed .vi-table-header .title{
+    line-height:1.08 !important;
+  }
+
+  .vi-table-embed .vi-table-header .subtitle{
+    line-height:1.35 !important;
+  }
+
+  #bt-block .dw-scroll{
+    height:444px !important;
+    max-height:444px !important;
+  }
+}
+
 </style>
 <!-- Header -->
 <div class="vi-table-header  ">
@@ -1974,8 +2008,7 @@
 <div aria-label="Download Menu" class="dw-download-menu vi-hide" id="dw-download-menu">
 <div class="dw-menu-title" id="dw-menu-title">Choose action</div>
 <!-- Full table options -->
-<button class="dw-menu-btn" id="dw-dl-top10" type="button">Download Top 10</button>
-<button class="dw-menu-btn" id="dw-dl-bottom10" type="button">Download Bottom 10</button>
+<button class="dw-menu-btn" id="dw-dl-top10" type="button">Download Image</button>
 <button class="dw-menu-btn" id="dw-dl-csv" type="button">Download CSV</button>
 <button class="dw-menu-btn" id="dw-embed-script" type="button">Copy HTML</button>
 <!-- Current view options (shown only when filter is active) -->
@@ -2154,8 +2187,7 @@
 <button aria-label="Close" class="dw-modal-close" id="dw-modal-close" type="button">×</button>
 </div>
 <div class="dw-modal-actions">
-<button class="dw-menu-btn" id="dw-modal-top10" type="button">Download Top 10</button>
-<button class="dw-menu-btn" id="dw-modal-bottom10" type="button">Download Bottom 10</button>
+<button class="dw-menu-btn" id="dw-modal-top10" type="button">Download Image</button>
 <button class="dw-menu-btn" id="dw-modal-csv" type="button">Download CSV</button>
 <button class="dw-menu-btn" id="dw-modal-embed" type="button">Copy HTML</button>
 <button class="dw-menu-btn vi-hide" id="dw-modal-csv-current" type="button">Download Current View CSV</button>
@@ -2244,7 +2276,6 @@
       && !!modal
       && !!modalTitle
       && !!btnTop10
-      && !!btnBottom10
       && !!btnCsv
       && !!btnEmbed;
 
@@ -2267,7 +2298,6 @@
     
       // Full-table options
       if (btnTop10)   btnTop10.classList.toggle('vi-hide', filtered);
-      if (btnBottom10) btnBottom10.classList.toggle('vi-hide', filtered);
       if (btnCsv)     btnCsv.classList.toggle('vi-hide', filtered);
       if (btnEmbed)   btnEmbed.classList.toggle('vi-hide', filtered);
     
@@ -3604,7 +3634,6 @@
     }
 
     if(hasEmbed && btnTop10) btnTop10.addEventListener('click', ()=> downloadDomPng('top10'));
-    if(hasEmbed && btnBottom10) btnBottom10.addEventListener('click', ()=> downloadDomPng('bottom10'));
     if(hasEmbed && btnCsv) btnCsv.addEventListener('click', downloadCsv);
     if(hasEmbed && btnEmbed) btnEmbed.addEventListener('click', onEmbedClick);
     if(hasEmbed && btnCsvCurrent) btnCsvCurrent.addEventListener('click', downloadCurrentViewCsv);
